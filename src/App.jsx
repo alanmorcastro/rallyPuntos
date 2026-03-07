@@ -109,7 +109,7 @@ function App() {
       <header>
         <div className="header-content">
           <h1>🏆 Puntos Rally</h1>
-          <p>Sistema de Gestión de Puntos - 10 Equipos, 10 Juegos</p>
+          <p>Sistema de Gestión de Puntos</p>
         </div>
         <div className="header-controls">
           <Menu

@@ -43,7 +43,7 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
         <table className="scores-table">
           <thead>
             <tr>
-              <th>Posición</th>
+              <th>#</th>
               <th>Equipo</th>
               {games.map((game) => (
                 <th key={game.id} className="game-col" title={game.name}>

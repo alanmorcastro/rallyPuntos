@@ -1,26 +1,11 @@
 import React, { useState } from "react";
 import "../styles/Login.css";
+import { users } from "../data/constants";
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  const users = [
-    {
-      username: "admin",
-      password: "admin123",
-      role: "administrador",
-      name: "Alan",
-    },
-    {
-      username: "user",
-      password: "user123",
-      role: "usuario",
-      name: "Patty",
-      allowedGame: 1, // Solo puede agregar puntos en el Juego 1
-    },
-  ];
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -89,7 +74,7 @@ function Login({ onLogin }) {
           </button>
         </form>
 
-        <div className="demo-section">
+        {/* <div className="demo-section">
           <p className="demo-label">O ingresa como:</p>
           <div className="demo-buttons">
             <button
@@ -118,7 +103,7 @@ function Login({ onLogin }) {
           <p>
             <strong>Usuario:</strong> Solo puede agregar puntos en Juego 1
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );
