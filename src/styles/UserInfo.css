@@ -1,0 +1,96 @@
+.user-info-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-info-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.95em;
+}
+
+.user-role {
+  color: white;
+  background-color: #667eea;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.logout-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.logout-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .user-info-container {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) {
+  .user-info-container {
+    display: flex;
+  }
+}
+}
+
+.logout-btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .user-info-container {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .user-info-content {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .user-name {
+    font-size: 0.9em;
+  }
+
+  .user-role {
+    font-size: 0.8em;
+    padding: 3px 10px;
+  }
+
+  .logout-btn {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 0.85em;
+  }
+}

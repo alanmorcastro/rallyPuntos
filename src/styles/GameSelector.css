@@ -1,0 +1,61 @@
+.game-selector {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.game-selector h2 {
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 1.3em;
+}
+
+.games-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.games-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.games-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.games-list::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 10px;
+}
+
+.games-list::-webkit-scrollbar-thumb:hover {
+  background: #764ba2;
+}
+
+.game-btn {
+  text-align: left;
+  padding: 12px;
+  background-color: #f5f5f5;
+  color: #333;
+  border: 2px solid transparent;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.game-btn:hover {
+  background-color: #e8e8e8;
+  border-color: #667eea;
+}
+
+.game-btn.active {
+  background-color: #667eea;
+  color: white;
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}

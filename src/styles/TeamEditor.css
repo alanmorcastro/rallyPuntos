@@ -1,0 +1,325 @@
+.team-editor-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+  padding: 20px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.team-editor-modal {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 2px solid #eee;
+}
+
+.editor-header h2 {
+  color: #333;
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #999;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #333;
+  background-color: #f5f5f5;
+  border-radius: 50%;
+}
+
+.teams-edit-list {
+  overflow-y: auto;
+  flex: 1;
+  padding: 0;
+}
+
+.teams-edit-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.teams-edit-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.teams-edit-list::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 10px;
+}
+
+.team-edit-item {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.team-expand-btn {
+  width: 100%;
+  padding: 15px 20px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.team-expand-btn:hover {
+  background-color: #f9f9f9;
+}
+
+.team-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.color-preview {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 2px solid #ddd;
+  flex-shrink: 0;
+}
+
+.team-name-preview {
+  color: #333;
+  font-weight: 500;
+}
+
+.expand-icon {
+  color: #667eea;
+  font-size: 0.9em;
+  transition: transform 0.3s ease;
+}
+
+.team-edit-form {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  animation: expandDown 0.3s ease;
+}
+
+@keyframes expandDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #555;
+  font-size: 0.95em;
+}
+
+.form-group input[type="text"] {
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1em;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.color-picker-container {
+  display: grid;
+  grid-template-columns: 50px 1fr 60px;
+  gap: 10px;
+  align-items: center;
+}
+
+.color-input {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.color-value {
+  font-family: monospace;
+  font-size: 0.9em;
+  color: #666;
+  text-align: center;
+}
+
+.color-preview-large {
+  width: 60px;
+  height: 50px;
+  border-radius: 6px;
+  border: 2px solid #ddd;
+  transition: transform 0.2s ease;
+}
+
+.color-preview-large:hover {
+  transform: scale(1.05);
+}
+
+.preset-colors {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preset-label {
+  font-weight: 600;
+  color: #555;
+  font-size: 0.95em;
+}
+
+.preset-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: 8px;
+}
+
+.preset-color {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.preset-color:hover {
+  transform: scale(1.1);
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+.editor-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 20px;
+  border-top: 2px solid #eee;
+  background-color: #fafafa;
+}
+
+.save-btn {
+  background-color: #52C41A;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: #45a517;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(82, 196, 26, 0.3);
+}
+
+.cancel-btn {
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 12px 20px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  background-color: #e8e8e8;
+  border-color: #999;
+}
+
+@media (max-width: 600px) {
+  .team-editor-modal {
+    max-height: 90vh;
+  }
+
+  .color-picker-container {
+    grid-template-columns: 1fr;
+  }
+
+  .color-input,
+  .color-preview-large {
+    width: 100%;
+  }
+
+  .preset-options {
+    grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
+  }
+}

@@ -1,0 +1,145 @@
+import React, { useMemo, useState } from "react";
+import "../styles/Scoreboard.css";
+import ScoreEditor from "./ScoreEditor";
+
+function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
+  const [editingScore, setEditingScore] = useState(null);
+  // Calcular los puntos totales de cada equipo
+  const totalScores = useMemo(() => {
+    const totals = {};
+    teams.forEach((team) => {
+      let total = 0;
+      games.forEach((game) => {
+        total += scores[team.id][game.id] || 0;
+      });
+      totals[team.id] = total;
+    });
+    return totals;
+  }, [scores, teams, games]);
+
+  // Ordenar equipos por puntos totales (descendente)
+  const rankedTeams = useMemo(() => {
+    return [...teams].sort((a, b) => totalScores[b.id] - totalScores[a.id]);
+  }, [teams, totalScores]);
+
+  return (
+    <div className="scoreboard">
+      <div className="scoreboard-header">
+        <h2>🏅 Tabla de Clasificación</h2>
+        <div className="summary-stats">
+          <div className="stat">
+            <span className="label">Total Equipos</span>
+            <span className="value">{teams.length}</span>
+          </div>
+          <div className="stat">
+            <span className="label">Total Juegos</span>
+            <span className="value">{games.length}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabla de Puntos Detallada */}
+      <div className="table-container">
+        <table className="scores-table">
+          <thead>
+            <tr>
+              <th>Posición</th>
+              <th>Equipo</th>
+              {games.map((game) => (
+                <th key={game.id} className="game-col" title={game.name}>
+                  {game.id}
+                </th>
+              ))}
+              <th className="total-col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rankedTeams.map((team, index) => (
+              <tr key={team.id} className={index < 3 ? "top-three" : ""}>
+                <td className="position">
+                  {index === 0 && "🥇"}
+                  {index === 1 && "🥈"}
+                  {index === 2 && "🥉"}
+                  {index > 2 && `${index + 1}º`}
+                </td>
+                <td
+                  className="team-name"
+                  style={{ borderLeftColor: team.color }}
+                >
+                  {team.name}
+                </td>
+                {games.map((game) => (
+                  <td
+                    key={game.id}
+                    className={`game-score ${isAdmin ? "editable" : ""}`}
+                    onClick={() => isAdmin && setEditingScore({ team, game })}
+                    style={{
+                      backgroundColor:
+                        scores[team.id][game.id] > 0
+                          ? `${team.color}20`
+                          : "transparent",
+                      cursor: isAdmin ? "pointer" : "default",
+                    }}
+                    title={isAdmin ? "Haz clic para editar" : ""}
+                  >
+                    {scores[team.id][game.id] || "-"}
+                  </td>
+                ))}
+                <td
+                  className="total-score"
+                  style={{ backgroundColor: team.color }}
+                >
+                  <strong>{totalScores[team.id]}</strong>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Resumen de Juegos */}
+      <div className="games-summary">
+        <h3>📊 Resumen de Juegos</h3>
+        <div className="games-grid">
+          {games.map((game) => {
+            const maxScore = Math.max(
+              ...teams.map((team) => scores[team.id][game.id] || 0),
+            );
+            const winner = teams.find(
+              (team) => scores[team.id][game.id] === maxScore && maxScore > 0,
+            );
+
+            return (
+              <div key={game.id} className="game-card">
+                <div className="game-title">Juego {game.id}</div>
+                <div className="game-detail">{game.name}</div>
+                {game.description && (
+                  <div className="game-description">{game.description}</div>
+                )}
+                {winner ? (
+                  <div className="game-winner" style={{ color: winner.color }}>
+                    🏆 {winner.name}: {maxScore} pts
+                  </div>
+                ) : (
+                  <div className="game-no-winner">Sin puntuación</div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {editingScore && (
+        <ScoreEditor
+          team={editingScore.team}
+          game={editingScore.game}
+          currentScore={scores[editingScore.team.id][editingScore.game.id] || 0}
+          onSave={onSetPoints}
+          onClose={() => setEditingScore(null)}
+        />
+      )}
+    </div>
+  );
+}
+
+export default Scoreboard;
