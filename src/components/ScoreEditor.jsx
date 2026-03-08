@@ -32,7 +32,7 @@ function ScoreEditor({ team, game, currentScore, onSave, onClose }) {
           <div className="team-game-info">
             <div className="info-row">
               <span className="label">Equipo:</span>
-              <span className="value" style={{ color: team.color }}>
+              <span className="value" style={{ color: team.hexcolor }}>
                 {team.name}
               </span>
             </div>

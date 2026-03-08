@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { supabase } from "./supabaseClient";
 import { TEAMS, GAMES } from "./data/constants.js";
 import Scoreboard from "./components/Scoreboard";
 import GameSelector from "./components/GameSelector";
@@ -25,10 +26,32 @@ function App() {
     });
     return initialScores;
   });
-
   const [selectedGame, setSelectedGame] = useState(GAMES[0].id);
   const [showTeamEditor, setShowTeamEditor] = useState(false);
   const [showGameEditor, setShowGameEditor] = useState(false);
+
+  useEffect(() => {
+    getTeams();
+    getGames();
+  }, []);
+
+  async function getTeams() {
+    const { data, error } = await supabase.from("teams").select("*");
+    if (error) {
+      console.error("Error fetching teams:", error);
+    } else {
+      setTeams(data);
+    }
+  }
+
+  async function getGames() {
+    const { data, error } = await supabase.from("games").select("*");
+    if (error) {
+      console.error("Error fetching games:", error);
+    } else {
+      setGames(data);
+    }
+  }
 
   const addPoints = (teamId, points) => {
     // Validar permiso: solo admin o usuario en su juego permitido

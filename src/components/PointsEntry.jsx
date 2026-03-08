@@ -68,12 +68,12 @@ function PointsEntry({
             key={team.id}
             className="team-entry"
             style={{
-              borderLeftColor: team.color,
+              borderLeftColor: team.hexcolor,
               opacity: canAddPoints ? 1 : 0.5,
             }}
           >
             <div className="team-info">
-              <span style={{ color: team.color, fontWeight: "bold" }}>
+              <span style={{ color: team.hexcolor, fontWeight: "bold" }}>
                 {team.name}
               </span>
               <span className="team-points">
@@ -83,7 +83,7 @@ function PointsEntry({
             <button
               className="add-btn"
               onClick={() => handleAddPoints(team.id)}
-              style={{ backgroundColor: team.color }}
+              style={{ backgroundColor: team.hexcolor }}
               disabled={!canAddPoints}
             >
               +{points}

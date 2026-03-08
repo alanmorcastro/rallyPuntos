@@ -8,6 +8,7 @@ function GameSelector({
   isAdmin,
   allowedGame,
 }) {
+  const sortedGames = games.sort((a, b) => a.id - b.id);
   // Si el usuario no es admin y tiene un juego permitido, forzar la selección a ese juego
   useEffect(() => {
     if (!isAdmin && allowedGame && selectedGame !== allowedGame) {
@@ -17,8 +18,8 @@ function GameSelector({
 
   // Filtrar juegos: si es admin, mostrar todos; si no, solo el permitido
   const visibleGames = isAdmin
-    ? games
-    : games.filter((game) => game.id === allowedGame);
+    ? sortedGames
+    : sortedGames.filter((game) => game.id === allowedGame);
 
   return (
     <div className="game-selector">

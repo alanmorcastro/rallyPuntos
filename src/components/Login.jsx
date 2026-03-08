@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Login.css";
-import { users } from "../data/constants";
+import { supabase } from "../supabaseClient";
 
 function Login({ onLogin }) {
+  const [users, setUsers] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  async function getUsers() {
+    const { data } = await supabase.from("users").select("*");
+    setUsers(data);
+  }
 
   const handleLogin = (e) => {
     e.preventDefault();

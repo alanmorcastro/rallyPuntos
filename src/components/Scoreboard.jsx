@@ -3,13 +3,15 @@ import "../styles/Scoreboard.css";
 import ScoreEditor from "./ScoreEditor";
 
 function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
+  const sortedGames = games.sort((a, b) => a.id - b.id);
+  const sortedTeams = teams.sort((a, b) => a.id - b.id);
   const [editingScore, setEditingScore] = useState(null);
   // Calcular los puntos totales de cada equipo
   const totalScores = useMemo(() => {
     const totals = {};
-    teams.forEach((team) => {
+    sortedTeams.forEach((team) => {
       let total = 0;
-      games.forEach((game) => {
+      sortedGames.forEach((game) => {
         total += scores[team.id][game.id] || 0;
       });
       totals[team.id] = total;
@@ -19,7 +21,9 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
 
   // Ordenar equipos por puntos totales (descendente)
   const rankedTeams = useMemo(() => {
-    return [...teams].sort((a, b) => totalScores[b.id] - totalScores[a.id]);
+    return [...sortedTeams].sort(
+      (a, b) => totalScores[b.id] - totalScores[a.id],
+    );
   }, [teams, totalScores]);
 
   return (
@@ -45,7 +49,7 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
             <tr>
               <th>#</th>
               <th>Equipo</th>
-              {games.map((game) => (
+              {sortedGames.map((game) => (
                 <th key={game.id} className="game-col" title={game.name}>
                   {game.id}
                 </th>
@@ -64,11 +68,11 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
                 </td>
                 <td
                   className="team-name"
-                  style={{ borderLeftColor: team.color }}
+                  style={{ borderLeftColor: team.hexcolor }}
                 >
                   {team.name}
                 </td>
-                {games.map((game) => (
+                {sortedGames.map((game) => (
                   <td
                     key={game.id}
                     className={`game-score ${isAdmin ? "editable" : ""}`}
@@ -76,7 +80,7 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
                     style={{
                       backgroundColor:
                         scores[team.id][game.id] > 0
-                          ? `${team.color}20`
+                          ? `${team.hexcolor}20`
                           : "transparent",
                       cursor: isAdmin ? "pointer" : "default",
                     }}
@@ -87,7 +91,7 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
                 ))}
                 <td
                   className="total-score"
-                  style={{ backgroundColor: team.color }}
+                  style={{ backgroundColor: team.hexcolor }}
                 >
                   <strong>{totalScores[team.id]}</strong>
                 </td>
@@ -111,8 +115,8 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
 
             return (
               <div key={game.id} className="game-card">
-                <div className="game-title">Juego {game.id}</div>
-                <div className="game-detail">{game.name}</div>
+                <div className="game-title">{game.name}</div>
+                <div className="game-detail">Encargado: {game.lead}</div>
                 {game.description && (
                   <div className="game-description">{game.description}</div>
                 )}

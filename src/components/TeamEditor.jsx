@@ -53,7 +53,7 @@ function TeamEditor({ teams, onTeamsChange, onClose }) {
                 <span className="team-header">
                   <span
                     className="color-preview"
-                    style={{ backgroundColor: team.color }}
+                    style={{ backgroundColor: team.hexcolor }}
                   ></span>
                   <span className="team-name-preview">{team.name}</span>
                 </span>
@@ -81,16 +81,16 @@ function TeamEditor({ teams, onTeamsChange, onClose }) {
                     <div className="color-picker-container">
                       <input
                         type="color"
-                        value={team.color}
+                        value={team.hexcolor}
                         onChange={(e) =>
                           handleColorChange(team.id, e.target.value)
                         }
                         className="color-input"
                       />
-                      <span className="color-value">{team.color}</span>
+                      <span className="color-value">{team.hexcolor}</span>
                       <div
                         className="color-preview-large"
-                        style={{ backgroundColor: team.color }}
+                        style={{ backgroundColor: team.hexcolor }}
                       ></div>
                     </div>
                   </div>
