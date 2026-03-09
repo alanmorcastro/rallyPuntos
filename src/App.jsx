@@ -56,6 +56,7 @@ function App() {
   const addPoints = (teamId, points) => {
     // Validar permiso: solo admin o usuario en su juego permitido
     const isAdmin = user?.role === "administrador";
+
     if (!isAdmin && selectedGame !== user?.allowedGame) {
       console.warn(
         "Usuario no tiene permiso para agregar puntos en este juego",
@@ -132,7 +133,7 @@ function App() {
       <header>
         <div className="header-content">
           <h1>🏆 Puntos Rally</h1>
-          <p>Sistema de Gestión de Puntos</p>
+          {/* <p>Sistema de Gestión de Puntos</p> */}
         </div>
         <div className="header-controls">
           <Menu

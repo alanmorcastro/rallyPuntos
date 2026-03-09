@@ -72,7 +72,7 @@ function ScoreEditor({ team, game, currentScore, onSave, onClose }) {
           <div className="quick-set-scores">
             <label>Valores rápidos:</label>
             <div className="quick-buttons">
-              {[0, 5, 10, 15, 20, 50].map((value) => (
+              {[0, 5, 7, 10].map((value) => (
                 <button
                   key={value}
                   className="quick-btn"

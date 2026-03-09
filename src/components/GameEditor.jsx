@@ -51,8 +51,8 @@ function GameEditor({ games, onGamesChange, onClose }) {
                 }
               >
                 <span className="game-header">
-                  <span className="game-number">Juego {game.id}</span>
-                  <span className="game-name-preview">{game.name}</span>
+                  <span className="game-number">{game.name}</span>
+                  {/* <span className="game-name-preview">{game.name}</span> */}
                 </span>
                 <span className="expand-icon">
                   {expandedGame === game.id ? "▼" : "▶"}
@@ -96,6 +96,14 @@ function GameEditor({ games, onGamesChange, onClose }) {
                         </div>
                       )}
                     </div>
+                  </div>
+                  <div className="form-group">
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDeleteGame(game.id)}
+                    >
+                      🗑️ Eliminar Juego
+                    </button>
                   </div>
                 </div>
               )}

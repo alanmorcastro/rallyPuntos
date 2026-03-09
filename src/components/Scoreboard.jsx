@@ -3,9 +3,10 @@ import "../styles/Scoreboard.css";
 import ScoreEditor from "./ScoreEditor";
 
 function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
-  const sortedGames = games.sort((a, b) => a.id - b.id);
-  const sortedTeams = teams.sort((a, b) => a.id - b.id);
+  const sortedGames = isAdmin ? games.sort((a, b) => a.id - b.id) : games;
+  const sortedTeams = isAdmin ? teams.sort((a, b) => a.id - b.id) : teams;
   const [editingScore, setEditingScore] = useState(null);
+
   // Calcular los puntos totales de cada equipo
   const totalScores = useMemo(() => {
     const totals = {};
@@ -26,11 +27,18 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
     );
   }, [teams, totalScores]);
 
+  const visibleGames = isAdmin
+    ? sortedGames
+    : sortedGames.filter((game) => {
+        // Si no es admin, mostrar solo el juego que tiene permitido
+        return game.id === editingScore?.game.id;
+      });
+
   return (
     <div className="scoreboard">
       <div className="scoreboard-header">
         <h2>🏅 Tabla de Clasificación</h2>
-        <div className="summary-stats">
+        {/* <div className="summary-stats">
           <div className="stat">
             <span className="label">Total Equipos</span>
             <span className="value">{teams.length}</span>
@@ -39,7 +47,7 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
             <span className="label">Total Juegos</span>
             <span className="value">{games.length}</span>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Tabla de Puntos Detallada */}
@@ -49,7 +57,7 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
             <tr>
               <th>#</th>
               <th>Equipo</th>
-              {sortedGames.map((game) => (
+              {visibleGames.map((game) => (
                 <th key={game.id} className="game-col" title={game.name}>
                   {game.id}
                 </th>
@@ -72,7 +80,7 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
                 >
                   {team.name}
                 </td>
-                {sortedGames.map((game) => (
+                {visibleGames.map((game) => (
                   <td
                     key={game.id}
                     className={`game-score ${isAdmin ? "editable" : ""}`}
@@ -117,16 +125,23 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
               <div key={game.id} className="game-card">
                 <div className="game-title">{game.name}</div>
                 <div className="game-detail">Encargado: {game.lead}</div>
+
                 {game.description && (
                   <div className="game-description">{game.description}</div>
                 )}
-                {winner ? (
-                  <div className="game-winner" style={{ color: winner.color }}>
-                    🏆 {winner.name}: {maxScore} pts
-                  </div>
-                ) : (
-                  <div className="game-no-winner">Sin puntuación</div>
-                )}
+
+                {isAdmin ? (
+                  winner ? (
+                    <div
+                      className="game-winner"
+                      style={{ color: winner.color }}
+                    >
+                      🏆 {winner.name}: {maxScore} pts
+                    </div>
+                  ) : (
+                    <div className="game-no-winner">Sin puntuación</div>
+                  )
+                ) : null}
               </div>
             );
           })}

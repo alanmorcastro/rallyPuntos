@@ -35,14 +35,14 @@ export const TEAMS = [
 ];
 
 export const GAMES = [
-  { id: 1, name: 'Base 1: Trivia', description: 'Preguntas de cultura general' },
-  { id: 2, name: 'Base 2: Deportes', description: 'Pruebas relacionadas con deportes' },
-  { id: 3, name: 'Base 3: Lógica', description: 'Desafíos de pensamiento lógico' },
-  { id: 4, name: 'Base 4: Velocidad', description: 'Competencia de rapidez y agilidad' },
-  { id: 5, name: 'Base 5: Acertijos', description: 'Acertijos y enigmas a resolver' },
-  { id: 6, name: 'Base 6: Memoria', description: 'Pruebas de memoria visual' },
-  { id: 7, name: 'Base 7: Estrategia', description: 'Juegos que requieren estrategia' },
-  { id: 8, name: 'Base 8: Conocimiento', description: 'Pruebas de conocimiento específico' },
-  { id: 9, name: 'Base 9: Habilidad', description: 'Desafíos de habilidad manual' },
-  { id: 10, name: 'Base 10: Desafío Final', description: 'El gran desafío final de todos' }
+  { id: 1, name: 'Base 1: Trivia', description: 'Preguntas de cultura general', lead: null },
+  { id: 2, name: 'Base 2: Deportes', description: 'Pruebas relacionadas con deportes', lead: null },
+  { id: 3, name: 'Base 3: Lógica', description: 'Desafíos de pensamiento lógico', lead: null },
+  { id: 4, name: 'Base 4: Velocidad', description: 'Competencia de rapidez y agilidad', lead: null },
+  { id: 5, name: 'Base 5: Acertijos', description: 'Acertijos y enigmas a resolver', lead: null },
+  { id: 6, name: 'Base 6: Memoria', description: 'Pruebas de memoria visual', lead: null },
+  { id: 7, name: 'Base 7: Estrategia', description: 'Juegos que requieren estrategia', lead: null },
+  { id: 8, name: 'Base 8: Conocimiento', description: 'Pruebas de conocimiento específico', lead: null },
+  { id: 9, name: 'Base 9: Habilidad', description: 'Desafíos de habilidad manual', lead: null },
+  { id: 10, name: 'Base 10: Desafío Final', description: 'El gran desafío final de todos', lead: null }
 ];

@@ -16,14 +16,31 @@ function TeamEditor({ teams, onTeamsChange, onClose }) {
   const handleColorChange = (teamId, newColor) => {
     setEditingTeams((prev) =>
       prev.map((team) =>
-        team.id === teamId ? { ...team, color: newColor } : team,
+        team.id === teamId ? { ...team, hexcolor: newColor } : team,
       ),
     );
+  };
+
+  const handleAddTeam = () => {
+    const newTeam = {
+      id: Date.now(),
+      name: "Nuevo Equipo",
+      captain: "",
+      hexcolor: "#eeeeee",
+    };
+    setEditingTeams((prev) => [...prev, newTeam]);
+    setExpandedTeam(newTeam.id);
   };
 
   const handleSave = () => {
     onTeamsChange(editingTeams);
     onClose();
+  };
+
+  const handleDeleteTeam = (teamId) => {
+    if (window.confirm("¿Estás seguro de que deseas eliminar este equipo?")) {
+      setEditingTeams((prev) => prev.filter((team) => team.id !== teamId));
+    }
   };
 
   const handleCancel = () => {
@@ -88,10 +105,10 @@ function TeamEditor({ teams, onTeamsChange, onClose }) {
                         className="color-input"
                       />
                       <span className="color-value">{team.hexcolor}</span>
-                      <div
+                      {/* <div
                         className="color-preview-large"
                         style={{ backgroundColor: team.hexcolor }}
-                      ></div>
+                      ></div> */}
                     </div>
                   </div>
 
@@ -122,6 +139,15 @@ function TeamEditor({ teams, onTeamsChange, onClose }) {
                       ))}
                     </div>
                   </div>
+
+                  <div className="form-group">
+                    <button
+                      className="delete-btn"
+                      onClick={() => handleDeleteTeam(team.id)}
+                    >
+                      🗑️ Eliminar Equipo
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -130,7 +156,10 @@ function TeamEditor({ teams, onTeamsChange, onClose }) {
 
         <div className="editor-actions">
           <button className="save-btn" onClick={handleSave}>
-            💾 Guardar Cambios
+            💾 Guardar
+          </button>
+          <button className="add-btn" onClick={handleAddTeam}>
+            ➕ Agregar
           </button>
           <button className="cancel-btn" onClick={handleCancel}>
             ❌ Cancelar

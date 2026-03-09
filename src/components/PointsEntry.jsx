@@ -54,7 +54,7 @@ function PointsEntry({
         <input
           type="number"
           min="1"
-          max="100"
+          max="10"
           value={points}
           onChange={(e) => setPoints(e.target.value)}
           placeholder="Ingresa los puntos"
@@ -76,9 +76,9 @@ function PointsEntry({
               <span style={{ color: team.hexcolor, fontWeight: "bold" }}>
                 {team.name}
               </span>
-              <span className="team-points">
+              {/* <span className="team-points">
                 {currentScores[team.id][selectedGame]} pts
-              </span>
+              </span> */}
             </div>
             <button
               className="add-btn"
@@ -98,7 +98,7 @@ function PointsEntry({
       >
         <h3>⚡ Acciones Rápidas</h3>
         <div className="quick-buttons">
-          {[1, 5, 10].map((value) => (
+          {[5, 7, 10].map((value) => (
             <button
               key={value}
               className="quick-btn"

@@ -22,7 +22,7 @@ function Menu({
   };
 
   const getRoleBadgeColor = (role) => {
-    return role === "administrador" ? "rgb(102, 129, 250)" : "#52C41A";
+    return role === "administrador" ? "rgb(184, 46, 69)" : "#69af46";
   };
 
   const getRoleLabel = (role) => {
