@@ -1,23 +1,16 @@
-export const users = [
+export const USERS = [
   {
     username: "admin",
     password: "admin123",
-    role: "administrador",
+    role: "administrador", // Puede agregar puntos a cualquier equipo y juego
     name: "Alan",
   },
   {
-    username: "patty",
+    username: "BASE1",
     password: "base1",
     role: "usuario",
     name: "Patty",
     allowedGame: 1, // Solo puede agregar puntos en el Juego 1
-  },
-  {
-    username: "Diego",
-    password: "base2",
-    role: "usuario",
-    name: "Diego",
-    allowedGame: 2, // Solo puede agregar puntos en el Juego 2
   },
 ];
 

@@ -33,7 +33,59 @@ function App() {
   useEffect(() => {
     getTeams();
     getGames();
+    getScores();
+    // Suscripción en tiempo real
+    const subscription = supabase
+      .channel("scores-changes")
+      .on(
+        "postgres_changes",
+        { event: "UPSERT", schema: "public", table: "scores" },
+        (payload) => {
+          console.log("Cambio detectado en scores:", payload);
+
+          const newRow = payload.new;
+          if (newRow) {
+            setScores((prevScores) => ({
+              ...prevScores,
+              [newRow.id_team]: {
+                ...prevScores[newRow.id_team],
+                [newRow.id_game]: newRow.score,
+              },
+            }));
+          }
+        },
+      )
+      .subscribe();
+
+    // Cleanup al desmontar
+    return () => {
+      supabase.removeChannel(subscription);
+    };
   }, []);
+
+  async function getScores() {
+    const { data, error } = await supabase.from("scores").select("*");
+    if (error) {
+      console.error("Error fetching scores:", error);
+      return;
+    }
+
+    const initialScores = {};
+    TEAMS.forEach((team) => {
+      initialScores[team.id] = {};
+      GAMES.forEach((game) => {
+        initialScores[team.id][game.id] = 0;
+      });
+    });
+
+    data.forEach((scoreEntry) => {
+      if (!initialScores[scoreEntry.id_team]) {
+        initialScores[scoreEntry.id_team] = {};
+      }
+      initialScores[scoreEntry.id_team][scoreEntry.id_game] = scoreEntry.score;
+    });
+    setScores(initialScores);
+  }
 
   async function getTeams() {
     const { data, error } = await supabase.from("teams").select("*");
@@ -53,7 +105,7 @@ function App() {
     }
   }
 
-  const addPoints = (teamId, points) => {
+  const addPoints = async (teamId, points) => {
     // Validar permiso: solo admin o usuario en su juego permitido
     const isAdmin = user?.role === "administrador";
 
@@ -61,6 +113,20 @@ function App() {
       console.warn(
         "Usuario no tiene permiso para agregar puntos en este juego",
       );
+      return;
+    }
+
+    const { error } = await supabase
+      .from("scores")
+      .upsert({
+        id_team: teamId,
+        id_game: selectedGame,
+        score: points,
+      })
+      .select();
+
+    if (error) {
+      console.error("Error updating points:", error);
       return;
     }
 
@@ -73,11 +139,25 @@ function App() {
     }));
   };
 
-  const setPoints = (teamId, gameId, points) => {
+  const setPoints = async (teamId, gameId, points) => {
     // Validar permiso: solo admin puede modificar puntos
     const isAdmin = user?.role === "administrador";
     if (!isAdmin) {
       console.warn("Solo administradores pueden modificar puntos específicos");
+      return;
+    }
+
+    const { error } = await supabase
+      .from("scores")
+      .upsert({
+        id_team: teamId,
+        id_game: gameId,
+        score: points,
+      })
+      .select();
+
+    if (error) {
+      console.error("Error setting points:", error);
       return;
     }
 
@@ -90,17 +170,16 @@ function App() {
     }));
   };
 
-  const resetScores = () => {
+  const resetScores = async () => {
     if (
       window.confirm("¿Estás seguro de que deseas reiniciar todos los puntos?")
     ) {
       const newScores = {};
-      teams.forEach((team) => {
-        newScores[team.id] = {};
-        games.forEach((game) => {
-          newScores[team.id][game.id] = 0;
-        });
-      });
+      const { error } = await supabase.from("scores").delete().neq("id", 0);
+      if (error) {
+        console.error("Error resetting scores:", error);
+        return;
+      }
       setScores(newScores);
     }
   };

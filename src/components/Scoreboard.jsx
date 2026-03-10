@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { supabase } from "../supabaseClient";
 import "../styles/Scoreboard.css";
 import ScoreEditor from "./ScoreEditor";
 
@@ -7,9 +8,20 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
   const sortedTeams = isAdmin ? teams.sort((a, b) => a.id - b.id) : teams;
   const [editingScore, setEditingScore] = useState(null);
 
+  useEffect(() => {
+    getScores();
+  }, []);
+
   // Calcular los puntos totales de cada equipo
   const totalScores = useMemo(() => {
+    const { data, error } = supabase.from("scores").select("*");
+    if (error) {
+      console.error("Error fetching scores:", error);
+      return {};
+    }
+
     const totals = {};
+
     sortedTeams.forEach((team) => {
       let total = 0;
       sortedGames.forEach((game) => {
@@ -17,6 +29,7 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
       });
       totals[team.id] = total;
     });
+
     return totals;
   }, [scores, teams, games]);
 
@@ -33,6 +46,15 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
         // Si no es admin, mostrar solo el juego que tiene permitido
         return game.id === editingScore?.game.id;
       });
+
+  const getScores = async () => {
+    const { data, error } = await supabase.from("scores").select("*");
+    if (error) {
+      console.error("Error fetching scores:", error);
+      return;
+    }
+    return data;
+  };
 
   return (
     <div className="scoreboard">
@@ -101,7 +123,13 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
                   className="total-score"
                   style={{ backgroundColor: team.hexcolor }}
                 >
-                  <strong>{totalScores[team.id]}</strong>
+                  {isAdmin ? (
+                    <strong>{totalScores[team.id]}</strong>
+                  ) : (
+                    visibleGames.map((game) => (
+                      <strong>{scores[team.id][game.id] || "0"}</strong>
+                    ))
+                  )}
                 </td>
               </tr>
             ))}
@@ -130,7 +158,7 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
                   <div className="game-description">{game.description}</div>
                 )}
 
-                {isAdmin ? (
+                {/* {isAdmin ? (
                   winner ? (
                     <div
                       className="game-winner"
@@ -141,7 +169,7 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
                   ) : (
                     <div className="game-no-winner">Sin puntuación</div>
                   )
-                ) : null}
+                ) : null} */}
               </div>
             );
           })}

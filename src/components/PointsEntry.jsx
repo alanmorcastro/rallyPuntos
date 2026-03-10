@@ -4,26 +4,25 @@ import "../styles/PointsEntry.css";
 function PointsEntry({
   teams,
   selectedGame,
-  currentScores,
   onAddPoints,
   onSetPoints,
   isAdmin,
   allowedGame,
+  currentScores,
 }) {
   const [points, setPoints] = useState(1);
 
   // Si el usuario no es admin y no está en su juego permitido, mostrar mensaje
   const canAddPoints = isAdmin || selectedGame === allowedGame;
 
+  // Filtrar equipos que no tienen puntos registrados en el juego seleccionado
+  const teamsWithoutPoints = teams.filter(
+    (team) => !currentScores[team.id] || !currentScores[team.id][selectedGame],
+  );
+
   const handleAddPoints = (teamId) => {
     if (!canAddPoints) return;
-    onAddPoints(teamId, parseInt(points) || 0);
-  };
-
-  const handleInputChange = (teamId, value) => {
-    if (!canAddPoints) return;
-    const newValue = parseInt(value) || 0;
-    onSetPoints(teamId, selectedGame, newValue);
+    onAddPoints(teamId, parseInt(points));
   };
 
   return (
@@ -56,40 +55,45 @@ function PointsEntry({
           min="1"
           max="10"
           value={points}
-          onChange={(e) => setPoints(e.target.value)}
+          onChange={(e) => setPoints(Number(e.target.value))}
           placeholder="Ingresa los puntos"
           disabled={!canAddPoints}
         />
       </div>
 
       <div className="teams-list">
-        {teams.map((team) => (
-          <div
-            key={team.id}
-            className="team-entry"
-            style={{
-              borderLeftColor: team.hexcolor,
-              opacity: canAddPoints ? 1 : 0.5,
-            }}
-          >
-            <div className="team-info">
-              <span style={{ color: team.hexcolor, fontWeight: "bold" }}>
-                {team.name}
-              </span>
-              {/* <span className="team-points">
+        {teamsWithoutPoints
+          .filter(
+            (team) =>
+              !currentScores[team.id] || !currentScores[team.id][selectedGame],
+          )
+          .map((team) => (
+            <div
+              key={team.id}
+              className="team-entry"
+              style={{
+                borderLeftColor: team.hexcolor,
+                opacity: canAddPoints ? 1 : 0.5,
+              }}
+            >
+              <div className="team-info">
+                <span style={{ color: team.hexcolor, fontWeight: "bold" }}>
+                  {team.name}
+                </span>
+                {/* <span className="team-points">
                 {currentScores[team.id][selectedGame]} pts
               </span> */}
+              </div>
+              <button
+                className="add-btn"
+                onClick={() => handleAddPoints(team.id)}
+                style={{ backgroundColor: team.hexcolor }}
+                disabled={!canAddPoints}
+              >
+                +{points}
+              </button>
             </div>
-            <button
-              className="add-btn"
-              onClick={() => handleAddPoints(team.id)}
-              style={{ backgroundColor: team.hexcolor }}
-              disabled={!canAddPoints}
-            >
-              +{points}
-            </button>
-          </div>
-        ))}
+          ))}
       </div>
 
       <div
@@ -102,7 +106,7 @@ function PointsEntry({
             <button
               key={value}
               className="quick-btn"
-              onClick={() => setPoints(value)}
+              onClick={() => setPoints(parseInt(value))}
               disabled={!canAddPoints}
             >
               +{value}
