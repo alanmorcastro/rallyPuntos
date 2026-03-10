@@ -3,7 +3,14 @@ import { supabase } from "../supabaseClient";
 import "../styles/Scoreboard.css";
 import ScoreEditor from "./ScoreEditor";
 
-function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
+function Scoreboard({
+  teams,
+  games,
+  scores,
+  onSetPoints,
+  isAdmin,
+  allowedGame,
+}) {
   const sortedGames = isAdmin ? games.sort((a, b) => a.id - b.id) : games;
   const sortedTeams = isAdmin ? teams.sort((a, b) => a.id - b.id) : teams;
   const [editingScore, setEditingScore] = useState(null);
@@ -44,7 +51,7 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
     ? sortedGames
     : sortedGames.filter((game) => {
         // Si no es admin, mostrar solo el juego que tiene permitido
-        return game.id === editingScore?.game.id;
+        return game.id === allowedGame;
       });
 
   const getScores = async () => {
@@ -77,25 +84,27 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
         <table className="scores-table">
           <thead>
             <tr>
-              <th>#</th>
+              {isAdmin && <th>#</th>}
               <th>Equipo</th>
               {visibleGames.map((game) => (
                 <th key={game.id} className="game-col" title={game.name}>
                   {game.id}
                 </th>
               ))}
-              <th className="total-col">Total</th>
+              {isAdmin && <th className="total-col">Total</th>}
             </tr>
           </thead>
           <tbody>
             {rankedTeams.map((team, index) => (
               <tr key={team.id} className={index < 3 ? "top-three" : ""}>
-                <td className="position">
-                  {index === 0 && "🥇"}
-                  {index === 1 && "🥈"}
-                  {index === 2 && "🥉"}
-                  {index > 2 && `${index + 1}º`}
-                </td>
+                {isAdmin && (
+                  <td className="position">
+                    {index === 0 && "🥇"}
+                    {index === 1 && "🥈"}
+                    {index === 2 && "🥉"}
+                    {index > 2 && `${index + 1}º`}
+                  </td>
+                )}
                 <td
                   className="team-name"
                   style={{ borderLeftColor: team.hexcolor }}
@@ -119,18 +128,14 @@ function Scoreboard({ teams, games, scores, onSetPoints, isAdmin }) {
                     {scores[team.id][game.id] || "-"}
                   </td>
                 ))}
-                <td
-                  className="total-score"
-                  style={{ backgroundColor: team.hexcolor }}
-                >
-                  {isAdmin ? (
+                {isAdmin && (
+                  <td
+                    className="total-score"
+                    style={{ backgroundColor: team.hexcolor }}
+                  >
                     <strong>{totalScores[team.id]}</strong>
-                  ) : (
-                    visibleGames.map((game) => (
-                      <strong>{scores[team.id][game.id] || "0"}</strong>
-                    ))
-                  )}
-                </td>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

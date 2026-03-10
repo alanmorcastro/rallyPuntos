@@ -255,6 +255,7 @@ function App() {
             scores={scores}
             onSetPoints={setPoints}
             isAdmin={isAdmin}
+            allowedGame={user?.allowedGame}
           />
         </div>
       </main>
