@@ -39,12 +39,15 @@ function App() {
       .channel("scores-changes")
       .on(
         "postgres_changes",
-        { event: "UPSERT", schema: "public", table: "scores" },
+        { event: "*", schema: "public", table: "scores" },
         (payload) => {
           console.log("Cambio detectado en scores:", payload);
 
-          const newRow = payload.new;
-          if (newRow) {
+          if (
+            payload.eventType === "INSERT" ||
+            payload.eventType === "UPDATE"
+          ) {
+            const newRow = payload.new;
             setScores((prevScores) => ({
               ...prevScores,
               [newRow.id_team]: {
@@ -53,11 +56,14 @@ function App() {
               },
             }));
           }
+
+          if (payload.eventType === "DELETE") {
+            getScores();
+          }
         },
       )
       .subscribe();
 
-    // Cleanup al desmontar
     return () => {
       supabase.removeChannel(subscription);
     };
@@ -174,13 +180,11 @@ function App() {
     if (
       window.confirm("¿Estás seguro de que deseas reiniciar todos los puntos?")
     ) {
-      const newScores = {};
-      const { error } = await supabase.from("scores").delete().neq("id", 0);
+      const { error } = await supabase.rpc("reset_scores");
       if (error) {
         console.error("Error resetting scores:", error);
         return;
       }
-      setScores(newScores);
     }
   };
 
