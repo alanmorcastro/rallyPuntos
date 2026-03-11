@@ -326,4 +326,8 @@
   .quick-buttons {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .score-input {
+    width: 100%;
+  }
 }

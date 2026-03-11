@@ -109,7 +109,7 @@ function Scoreboard({
                   className="team-name"
                   style={{ borderLeftColor: team.hexcolor }}
                 >
-                  {team.name}
+                  {`${team.name}`}
                 </td>
                 {visibleGames.map((game) => (
                   <td

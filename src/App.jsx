@@ -36,13 +36,12 @@ function App() {
     getScores();
     // Suscripción en tiempo real
     const subscription = supabase
-      .channel("scores-changes")
+      .channel("db-changes")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "scores" },
         (payload) => {
-          console.log("Cambio detectado en scores:", payload);
-
+          console.log("Cambio detectado:", payload);
           if (
             payload.eventType === "INSERT" ||
             payload.eventType === "UPDATE"
@@ -188,11 +187,26 @@ function App() {
     }
   };
 
-  const handleTeamsChange = (updatedTeams) => {
+  const handleTeamsChange = async (updatedTeams) => {
+    console.log("Equipos actualizados:", updatedTeams);
+    const { error } = await supabase
+      .from("teams")
+      .upsert(updatedTeams, { onConflict: "id" });
+    if (error) {
+      console.error("Error updating teams:", error);
+      return;
+    }
     setTeams(updatedTeams);
   };
 
-  const handleGamesChange = (updatedGames) => {
+  const handleGamesChange = async (updatedGames) => {
+    const { error } = await supabase
+      .from("games")
+      .upsert(updatedGames, { onConflict: "id" });
+    if (error) {
+      console.error("Error updating games:", error);
+      return;
+    }
     setGames(updatedGames);
   };
 

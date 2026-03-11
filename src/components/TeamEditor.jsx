@@ -13,6 +13,14 @@ function TeamEditor({ teams, onTeamsChange, onClose }) {
     );
   };
 
+  const handleCaptainChange = (teamId, newCaptain) => {
+    setEditingTeams((prev) =>
+      prev.map((team) =>
+        team.id === teamId ? { ...team, captain: newCaptain } : team,
+      ),
+    );
+  };
+
   const handleColorChange = (teamId, newColor) => {
     setEditingTeams((prev) =>
       prev.map((team) =>
@@ -21,27 +29,27 @@ function TeamEditor({ teams, onTeamsChange, onClose }) {
     );
   };
 
-  const handleAddTeam = () => {
-    const newTeam = {
-      id: Date.now(),
-      name: "Nuevo Equipo",
-      captain: "",
-      hexcolor: "#eeeeee",
-    };
-    setEditingTeams((prev) => [...prev, newTeam]);
-    setExpandedTeam(newTeam.id);
-  };
+  // const handleAddTeam = () => {
+  //   const newTeam = {
+  //     id: Date.now(),
+  //     name: "Nuevo Equipo",
+  //     captain: "",
+  //     hexcolor: "#eeeeee",
+  //   };
+  //   setEditingTeams((prev) => [...prev, newTeam]);
+  //   setExpandedTeam(newTeam.id);
+  // };
 
   const handleSave = () => {
     onTeamsChange(editingTeams);
     onClose();
   };
 
-  const handleDeleteTeam = (teamId) => {
-    if (window.confirm("¿Estás seguro de que deseas eliminar este equipo?")) {
-      setEditingTeams((prev) => prev.filter((team) => team.id !== teamId));
-    }
-  };
+  // const handleDeleteTeam = (teamId) => {
+  //   if (window.confirm("¿Estás seguro de que deseas eliminar este equipo?")) {
+  //     setEditingTeams((prev) => prev.filter((team) => team.id !== teamId));
+  //   }
+  // };
 
   const handleCancel = () => {
     setEditingTeams(teams);
@@ -94,6 +102,18 @@ function TeamEditor({ teams, onTeamsChange, onClose }) {
                   </div>
 
                   <div className="form-group">
+                    <label>Capitán:</label>
+                    <input
+                      type="text"
+                      value={team.captain}
+                      onChange={(e) =>
+                        handleCaptainChange(team.id, e.target.value)
+                      }
+                      placeholder="Ingresa el nombre del capitán"
+                    />
+                  </div>
+
+                  <div className="form-group">
                     <label>Color:</label>
                     <div className="color-picker-container">
                       <input
@@ -140,14 +160,14 @@ function TeamEditor({ teams, onTeamsChange, onClose }) {
                     </div>
                   </div>
 
-                  <div className="form-group">
+                  {/* <div className="form-group">
                     <button
                       className="delete-btn"
                       onClick={() => handleDeleteTeam(team.id)}
                     >
                       🗑️ Eliminar Equipo
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               )}
             </div>
@@ -158,9 +178,9 @@ function TeamEditor({ teams, onTeamsChange, onClose }) {
           <button className="save-btn" onClick={handleSave}>
             💾 Guardar
           </button>
-          <button className="add-btn" onClick={handleAddTeam}>
+          {/* <button className="add-btn" onClick={handleAddTeam}>
             ➕ Agregar
-          </button>
+          </button> */}
           <button className="cancel-btn" onClick={handleCancel}>
             ❌ Cancelar
           </button>

@@ -13,6 +13,14 @@ function GameEditor({ games, onGamesChange, onClose }) {
     );
   };
 
+  const handleLeadChange = (gameId, newLead) => {
+    setEditingGames((prev) =>
+      prev.map((game) =>
+        game.id === gameId ? { ...game, lead: newLead } : game,
+      ),
+    );
+  };
+
   const handleDescriptionChange = (gameId, newDescription) => {
     setEditingGames((prev) =>
       prev.map((game) =>
@@ -72,6 +80,17 @@ function GameEditor({ games, onGamesChange, onClose }) {
                       placeholder="Ingresa el nombre del juego"
                     />
                   </div>
+                  <div className="form-group">
+                    <label>Encargado:</label>
+                    <input
+                      type="text"
+                      value={game.lead || ""}
+                      onChange={(e) =>
+                        handleLeadChange(game.id, e.target.value)
+                      }
+                      placeholder="Ingresa el nombre del encargado"
+                    />
+                  </div>
 
                   <div className="form-group">
                     <label>Descripción:</label>
@@ -90,6 +109,11 @@ function GameEditor({ games, onGamesChange, onClose }) {
                     <div className="preview-box">
                       <div className="preview-title">Juego {game.id}</div>
                       <div className="preview-name">{game.name}</div>
+                      {game.lead && (
+                        <div className="preview-lead">
+                          Encargado: {game.lead}
+                        </div>
+                      )}
                       {game.description && (
                         <div className="preview-description">
                           {game.description}
@@ -97,14 +121,14 @@ function GameEditor({ games, onGamesChange, onClose }) {
                       )}
                     </div>
                   </div>
-                  <div className="form-group">
+                  {/* <div className="form-group">
                     <button
                       className="delete-btn"
                       onClick={() => handleDeleteGame(game.id)}
                     >
                       🗑️ Eliminar Juego
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               )}
             </div>
