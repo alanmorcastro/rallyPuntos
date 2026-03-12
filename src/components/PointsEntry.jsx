@@ -25,9 +25,43 @@ function PointsEntry({
     onAddPoints(teamId, parseInt(points));
   };
 
-  const handleChangePoints = (value) => {
-    const regex = /^(10|[1-9])$/;
-    regex.test(value) && setPoints(value);
+  const handleIncrement = () => {
+    if (!canAddPoints) return;
+    setPoints((prev) => (prev < 10 ? prev + 1 : prev));
+  };
+
+  const handleDecrement = () => {
+    if (!canAddPoints) return;
+    setPoints((prev) => (prev > 1 ? prev - 1 : prev));
+  };
+
+  const handleChangePoints = (e) => {
+    const value = e.target.value;
+
+    // Si el valor actual es 0 y el usuario escribe un número distinto
+    if (points === 0 && /^[0-9]$/.test(value)) {
+      setPoints(parseInt(value, 10)); // reemplaza directamente
+      return;
+    }
+
+    // Convertir a número y limitar entre 0 y 10
+    let num = parseInt(value, 10);
+    if (isNaN(num)) num = 0;
+    if (num < 0) num = 0;
+    if (num > 10) num = 10;
+
+    setPoints(num);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Backspace") {
+      if (points === 10) {
+        setPoints(1); // si era 10 → pasa a 1
+      } else {
+        setPoints(1); // cualquier otro valor → pasa a 0
+      }
+      e.preventDefault(); // evita que borre el input manualmente
+    }
   };
 
   return (
@@ -55,16 +89,34 @@ function PointsEntry({
         style={{ opacity: canAddPoints ? 1 : 0.5 }}
       >
         <label>Puntos a Agregar:</label>
-        <input
-          type="number"
-          min="1"
-          max="10"
-          step="1"
-          value={points}
-          onChange={(e) => handleChangePoints(Number(e.target.value))}
-          placeholder="Ingresa los puntos"
-          disabled={!canAddPoints}
-        />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "5px",
+          }}
+        >
+          <button
+            style={{ height: "45px", fontSize: "25px" }}
+            onClick={handleDecrement}
+          >
+            -
+          </button>
+          <input
+            value={points}
+            onChange={handleChangePoints}
+            onKeyDown={handleKeyDown}
+            placeholder="Ingresa los puntos"
+            disabled={!canAddPoints}
+          />
+          <button
+            style={{ height: "45px", fontSize: "25px" }}
+            onClick={handleIncrement}
+          >
+            +
+          </button>
+        </div>
       </div>
 
       <div className="teams-list">
