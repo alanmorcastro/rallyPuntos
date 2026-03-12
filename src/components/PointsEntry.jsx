@@ -100,6 +100,7 @@ function PointsEntry({
           <button
             style={{ height: "45px", fontSize: "25px" }}
             onClick={handleDecrement}
+            disabled={!canAddPoints}
           >
             -
           </button>
@@ -108,11 +109,12 @@ function PointsEntry({
             onChange={handleChangePoints}
             onKeyDown={handleKeyDown}
             placeholder="Ingresa los puntos"
-            disabled={!canAddPoints}
+            disabled={true}
           />
           <button
             style={{ height: "45px", fontSize: "25px" }}
             onClick={handleIncrement}
+            disabled={!canAddPoints}
           >
             +
           </button>
