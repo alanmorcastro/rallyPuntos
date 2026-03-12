@@ -25,6 +25,11 @@ function PointsEntry({
     onAddPoints(teamId, parseInt(points));
   };
 
+  const handleChangePoints = (value) => {
+    const regex = /^(10|[1-9])$/;
+    regex.test(value) && setPoints(value);
+  };
+
   return (
     <div className="points-entry">
       <h2>➕ Registrar Puntos</h2>
@@ -54,8 +59,9 @@ function PointsEntry({
           type="number"
           min="1"
           max="10"
+          step="1"
           value={points}
-          onChange={(e) => setPoints(Number(e.target.value))}
+          onChange={(e) => handleChangePoints(Number(e.target.value))}
           placeholder="Ingresa los puntos"
           disabled={!canAddPoints}
         />

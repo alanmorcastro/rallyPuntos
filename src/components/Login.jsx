@@ -22,7 +22,9 @@ function Login({ onLogin }) {
     setError("");
 
     const user = users.find(
-      (u) => u.username === username && u.password === password,
+      (u) =>
+        u.username.toLowerCase() === username.toLowerCase() &&
+        u.password === password,
     );
 
     if (user) {

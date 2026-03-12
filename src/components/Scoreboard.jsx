@@ -21,11 +21,11 @@ function Scoreboard({
 
   // Calcular los puntos totales de cada equipo
   const totalScores = useMemo(() => {
-    const { data, error } = supabase.from("scores").select("*");
-    if (error) {
-      console.error("Error fetching scores:", error);
-      return {};
-    }
+    // const { data, error } = supabase.from("scores").select("*");
+    // if (error) {
+    //   console.error("Error fetching scores:", error);
+    //   return {};
+    // }
 
     const totals = {};
 
