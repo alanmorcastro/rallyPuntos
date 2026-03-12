@@ -22,7 +22,13 @@ function PointsEntry({
 
   const handleAddPoints = (teamId) => {
     if (!canAddPoints) return;
-    onAddPoints(teamId, parseInt(points));
+    if (
+      window.confirm(
+        `¿Agregar ${points} punto(s) a equipo ${teams.find((t) => t.id === teamId).name}?`,
+      )
+    ) {
+      onAddPoints(teamId, parseInt(points));
+    }
   };
 
   const handleIncrement = () => {
@@ -51,17 +57,6 @@ function PointsEntry({
     if (num > 10) num = 10;
 
     setPoints(num);
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Backspace") {
-      if (points === 10) {
-        setPoints(1); // si era 10 → pasa a 1
-      } else {
-        setPoints(1); // cualquier otro valor → pasa a 0
-      }
-      e.preventDefault(); // evita que borre el input manualmente
-    }
   };
 
   return (
@@ -107,7 +102,6 @@ function PointsEntry({
           <input
             value={points}
             onChange={handleChangePoints}
-            onKeyDown={handleKeyDown}
             placeholder="Ingresa los puntos"
             disabled={true}
           />
