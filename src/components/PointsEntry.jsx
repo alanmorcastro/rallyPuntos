@@ -148,6 +148,13 @@ function PointsEntry({
               </button>
             </div>
           ))}
+        {!teamsWithoutPoints.length && (
+          <div
+            style={{ textAlign: "center", color: "#777", marginTop: "20px" }}
+          >
+            Todos los equipos ya tienen puntos registrados en este juego.
+          </div>
+        )}
       </div>
 
       <div
