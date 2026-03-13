@@ -249,18 +249,48 @@
 
 .preview-info {
   display: flex;
-  justify-content: space-around;
-  padding: 12px;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  border-radius: 6px;
-  font-size: 0.95em;
+  border-radius: 8px;
   color: #333;
 }
 
-.preview-info span {
+.preview-item {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
+}
+
+.preview-label {
+  font-size: 0.8em;
+  font-weight: 600;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.preview-value {
+  font-size: 1.6em;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.preview-old {
+  color: #999;
+}
+
+.preview-new {
+  color: #667eea;
+}
+
+.preview-arrow {
+  font-size: 1.4em;
+  color: #aaa;
+  margin-top: 14px;
 }
 
 .score-editor-modal .editor-actions {
@@ -319,15 +349,77 @@
 }
 
 @media (max-width: 480px) {
-  .score-editor-modal {
-    max-width: 90vw;
+  .score-editor-overlay {
+    padding: 12px;
   }
 
-  .quick-buttons {
-    grid-template-columns: repeat(2, 1fr);
+  .score-editor-modal {
+    max-width: none;
+    width: 100%;
+  }
+
+  .score-editor-modal .editor-header {
+    padding: 14px;
+  }
+
+  .score-editor-modal .editor-header h3 {
+    font-size: 1.1em;
+  }
+
+  .editor-content {
+    padding: 14px;
+    gap: 14px;
+  }
+
+  .team-game-info {
+    padding: 10px;
+  }
+
+  .info-row .label,
+  .info-row .value {
+    font-size: 0.9em;
+  }
+
+  .score-controls {
+    gap: 8px;
+  }
+
+  .score-btn {
+    padding: 10px;
+    font-size: 1.1em;
   }
 
   .score-input {
     width: 100%;
+    padding: 10px;
+    font-size: 1.1em;
+  }
+
+  .quick-buttons {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .quick-btn {
+    padding: 8px;
+  }
+
+  .preview-info {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .preview-value {
+    font-size: 1.4em;
+  }
+
+  .score-editor-modal .editor-actions {
+    padding: 14px;
+    gap: 8px;
+  }
+
+  .score-editor-modal .save-btn,
+  .score-editor-modal .cancel-btn {
+    padding: 10px 14px;
+    font-size: 0.9em;
   }
 }

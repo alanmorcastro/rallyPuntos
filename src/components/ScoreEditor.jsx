@@ -85,13 +85,15 @@ function ScoreEditor({ team, game, currentScore, onSave, onClose }) {
           </div>
 
           <div className="preview-info">
-            <span>
-              Puntaje anterior: <strong>{currentScore}</strong>
-            </span>
-            <span>
-              Puntaje nuevo:{" "}
-              <strong style={{ color: "#667eea" }}>{score}</strong>
-            </span>
+            <div className="preview-item">
+              <span className="preview-label">Anterior</span>
+              <span className="preview-value preview-old">{currentScore}</span>
+            </div>
+            <div className="preview-arrow">→</div>
+            <div className="preview-item">
+              <span className="preview-label">Nuevo</span>
+              <span className="preview-value preview-new">{score}</span>
+            </div>
           </div>
         </div>
 

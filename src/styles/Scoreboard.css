@@ -3,6 +3,7 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 0;
 }
 
 .scoreboard-header {
@@ -45,11 +46,14 @@
   margin-bottom: 30px;
   border-radius: 8px;
   border: 1px solid #eee;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
 }
 
 .scores-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: 0.95em;
 }
 
@@ -65,6 +69,7 @@
   text-align: center;
   font-weight: 600;
   border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .scores-table th:first-child {
@@ -85,7 +90,6 @@
 }
 
 .scores-table tbody tr {
-  border-bottom: 1px solid #f0f0f0;
   transition: background-color 0.2s ease;
 }
 
@@ -101,6 +105,7 @@
   padding: 12px;
   text-align: center;
   border-right: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .scores-table td.position {
@@ -116,6 +121,7 @@
   color: #333;
   border-left: 4px solid;
   padding-left: 15px;
+  white-space: nowrap;
 }
 
 .scores-table td.game-score {
@@ -145,6 +151,84 @@
   color: white;
   border-left: 2px solid rgba(0, 0, 0, 0.1);
   font-size: 1.1em;
+}
+
+/* Sticky columns */
+.scores-table .sticky-col {
+  position: sticky;
+  z-index: 2;
+}
+
+.scores-table thead .sticky-col {
+  z-index: 3;
+}
+
+.scores-table .sticky-position {
+  left: 0;
+  min-width: 45px;
+  max-width: 45px;
+}
+
+.scores-table .sticky-team {
+  left: 45px;
+  min-width: 120px;
+}
+
+.scores-table .sticky-team.sticky-team-first {
+  left: 0;
+}
+
+.scores-table .sticky-total {
+  right: 0;
+  min-width: 60px;
+}
+
+.scores-table thead .sticky-position {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.scores-table thead .sticky-team {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.scores-table thead .sticky-total {
+  background: #5a6fd6;
+}
+
+.scores-table tbody .sticky-position,
+.scores-table tbody .sticky-team {
+  background: white;
+}
+
+.scores-table tbody tr.top-three .sticky-position,
+.scores-table tbody tr.top-three .sticky-team {
+  background: #fff8f0;
+}
+
+.scores-table tbody tr:hover .sticky-position,
+.scores-table tbody tr:hover .sticky-team {
+  background: #f9f9f9;
+}
+
+.scores-table tbody .sticky-position::after,
+.scores-table tbody .sticky-team::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -4px;
+  bottom: 0;
+  width: 4px;
+  pointer-events: none;
+}
+
+.scores-table tbody .sticky-total::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -4px;
+  bottom: 0;
+  width: 4px;
+  pointer-events: none;
 }
 
 .games-summary {
@@ -216,33 +300,96 @@
 
 @media (max-width: 768px) {
   .scoreboard {
-    padding: 15px;
+    padding: 8px;
+  }
+
+  .scoreboard-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .scoreboard-header h2 {
+    font-size: 1.1em;
+  }
+
+  .table-container {
+    margin-bottom: 15px;
   }
 
   .scores-table {
-    font-size: 0.8em;
+    font-size: 0.72em;
+    width: max-content;
+    min-width: 100%;
   }
 
   .scores-table th,
   .scores-table td {
-    padding: 8px 4px;
+    padding: 6px 3px;
+  }
+
+  .scores-table .sticky-position {
+    min-width: 32px;
+    max-width: 32px;
+  }
+
+  .scores-table .sticky-team {
+    left: 32px;
+    min-width: 80px;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .scores-table .sticky-team.sticky-team-first {
+    left: 0;
+    min-width: 90px;
+    max-width: 90px;
+  }
+
+  .scores-table .sticky-total {
+    min-width: 44px;
+    max-width: 44px;
+  }
+
+  .scores-table td.team-name {
+    padding-left: 8px;
+    border-left-width: 3px;
   }
 
   .scores-table th.game-col,
   .scores-table td.game-score {
-    padding: 6px 3px;
+    padding: 5px 2px;
+    min-width: 34px;
+  }
+
+  .games-summary {
+    margin-top: 15px;
+    padding-top: 12px;
+  }
+
+  .games-summary h3 {
+    font-size: 1em;
+    margin-bottom: 10px;
   }
 
   .games-grid {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     gap: 8px;
   }
 
   .game-card {
-    padding: 10px;
+    padding: 8px;
+  }
+
+  .game-title {
+    font-size: 0.8em;
   }
 
   .game-detail {
     font-size: 0.70em;
+  }
+
+  .game-description {
+    font-size: 0.7em;
   }
 }

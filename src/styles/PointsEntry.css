@@ -6,6 +6,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .points-entry h2 {
@@ -72,10 +73,14 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-width: 0;
 }
 
 .team-info span {
   font-size: 0.95em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .team-points {
@@ -90,6 +95,7 @@
   font-weight: bold;
   white-space: nowrap;
   min-width: 70px;
+  flex-shrink: 0;
 }
 
 .quick-actions {
@@ -120,4 +126,40 @@
 .quick-btn:hover {
   background-color: #e0e0e0;
   border-color: #667eea;
+}
+
+@media (max-width: 768px) {
+  .points-entry {
+    padding: 12px;
+  }
+
+  .points-entry h2 {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+  }
+
+  .points-input-section input {
+    font-size: 1em;
+    padding: 10px;
+  }
+
+  .team-entry {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .team-info span {
+    font-size: 0.85em;
+  }
+
+  .add-btn {
+    padding: 8px 10px;
+    font-size: 0.85em;
+    min-width: 60px;
+  }
+
+  .quick-btn {
+    padding: 8px;
+    font-size: 0.85em;
+  }
 }

@@ -61,7 +61,6 @@
     display: flex;
   }
 }
-}
 
 .logout-btn:active {
   transform: translateY(0);

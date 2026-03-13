@@ -3,6 +3,7 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 0;
 }
 
 .game-selector h2 {
@@ -58,4 +59,20 @@
   color: white;
   border-color: #667eea;
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+@media (max-width: 768px) {
+  .game-selector {
+    padding: 12px;
+  }
+
+  .game-selector h2 {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+  }
+
+  .game-btn {
+    padding: 10px;
+    font-size: 0.9em;
+  }
 }

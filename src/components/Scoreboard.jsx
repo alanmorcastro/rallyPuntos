@@ -84,21 +84,27 @@ function Scoreboard({
         <table className="scores-table">
           <thead>
             <tr>
-              {isAdmin && <th>#</th>}
-              <th>Equipo</th>
+              {isAdmin && <th className="sticky-col sticky-position">#</th>}
+              <th
+                className={`sticky-col sticky-team ${isAdmin ? "" : "sticky-team-first"}`}
+              >
+                Equipo
+              </th>
               {visibleGames.map((game) => (
                 <th key={game.id} className="game-col" title={game.name}>
                   {game.id}
                 </th>
               ))}
-              {isAdmin && <th className="total-col">Total</th>}
+              {isAdmin && (
+                <th className="sticky-col sticky-total total-col">Total</th>
+              )}
             </tr>
           </thead>
           <tbody>
             {rankedTeams.map((team, index) => (
               <tr key={team.id} className={index < 3 ? "top-three" : ""}>
                 {isAdmin && (
-                  <td className="position">
+                  <td className="position sticky-col sticky-position">
                     {index === 0 && "🥇"}
                     {index === 1 && "🥈"}
                     {index === 2 && "🥉"}
@@ -106,7 +112,7 @@ function Scoreboard({
                   </td>
                 )}
                 <td
-                  className="team-name"
+                  className={`team-name sticky-col sticky-team ${isAdmin ? "" : "sticky-team-first"}`}
                   style={{ borderLeftColor: team.hexcolor }}
                 >
                   {team.name}
@@ -130,7 +136,7 @@ function Scoreboard({
                 ))}
                 {isAdmin && (
                   <td
-                    className="total-score"
+                    className="total-score sticky-col sticky-total"
                     style={{ backgroundColor: team.hexcolor }}
                   >
                     <strong>{totalScores[team.id]}</strong>

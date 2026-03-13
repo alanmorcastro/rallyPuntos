@@ -5,6 +5,10 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
+  padding-top: max(20px, env(safe-area-inset-top));
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
 }
 
 .login-box {
@@ -213,15 +217,41 @@
 }
 
 @media (max-width: 480px) {
+  .login-container {
+    padding: 10px;
+  }
+
   .login-box {
-    padding: 30px 20px;
+    padding: 24px 16px;
+  }
+
+  .login-header {
+    margin-bottom: 24px;
   }
 
   .login-header h1 {
-    font-size: 2em;
+    font-size: 1.8em;
+  }
+
+  .login-header p {
+    font-size: 0.95em;
+  }
+
+  .login-form {
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .demo-section {
+    padding: 14px;
   }
 
   .demo-buttons {
     grid-template-columns: 1fr;
+  }
+
+  .login-info {
+    font-size: 0.85em;
+    padding: 12px;
   }
 }
