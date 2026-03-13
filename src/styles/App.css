@@ -56,6 +56,37 @@ header p {
   min-width: 0;
 }
 
+.reference-maps {
+  margin-top: 20px;
+}
+
+.reference-maps h2 {
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.maps-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.map-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.map-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 @media (max-width: 1024px) {
   .container {
     grid-template-columns: 1fr;
@@ -101,5 +132,19 @@ header p {
   .left-panel,
   .right-panel {
     gap: 12px;
+  }
+
+  .reference-maps {
+    margin-top: 12px;
+  }
+
+  .reference-maps h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+
+  .maps-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 }

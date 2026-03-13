@@ -278,6 +278,18 @@ function App() {
         </div>
       </main>
 
+      <section className="reference-maps">
+        <h2>🗺️ Mapas de Referencia</h2>
+        <div className="maps-grid">
+          <div className="map-card">
+            <img src="/images/rallyday.png" alt="Mapa Rally de Día" />
+          </div>
+          <div className="map-card">
+            <img src="/images/rallynight.png" alt="Mapa Rally Nocturno" />
+          </div>
+        </div>
+      </section>
+
       {isAdmin && showTeamEditor && (
         <TeamEditor
           teams={teams}
