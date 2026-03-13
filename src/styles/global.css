@@ -5,12 +5,12 @@
 }
 
 html {
-  background-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: #667eea;
 }
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #667eea;
   min-height: 100vh;
   padding: 20px;
   padding-top: max(20px, env(safe-area-inset-top));
@@ -33,7 +33,7 @@ header {
 }
 
 header h1 {
-  font-size: 2.5em;
+  font-size: 2.2em;
   margin-bottom: 10px;
 }
 
