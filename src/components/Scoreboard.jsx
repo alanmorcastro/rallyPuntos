@@ -109,7 +109,7 @@ function Scoreboard({
                   className="team-name"
                   style={{ borderLeftColor: team.hexcolor }}
                 >
-                  {`${team.name}`}
+                  {team.name}
                 </td>
                 {visibleGames.map((game) => (
                   <td
@@ -157,11 +157,13 @@ function Scoreboard({
             return (
               <div key={game.id} className="game-card">
                 <div className="game-title">{game.name}</div>
-                <div className="game-detail">Encargado: {game.lead}</div>
+                <div className="game-description">
+                  <strong>Encargado:</strong> {game.lead}
+                </div>
 
-                {game.description && (
+                {/* {game.description && (
                   <div className="game-description">{game.description}</div>
-                )}
+                )} */}
 
                 {/* {isAdmin ? (
                   winner ? (
